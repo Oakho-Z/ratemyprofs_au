@@ -1,29 +1,35 @@
-# 使用官方 Node 镜像（版本匹配）
-FROM node:12.22.6
+# 使用 Ruby + Debian Buster 的稳定镜像
+FROM ruby:2.7.8-slim-buster
 
-# 安装 Ruby 及系统依赖
-RUN apt-get update && apt-get install -y ruby-full build-essential libpq-dev
+# 安装 Node.js 12 和 Yarn
+RUN apt-get update && apt-get install -y curl gnupg build-essential libpq-dev \
+  && curl -sL https://deb.nodesource.com/setup_12.x | bash - \
+  && apt-get install -y nodejs \
+  && npm install -g yarn
 
 # 设置工作目录
 WORKDIR /app
 
-# 拷贝依赖文件
-COPY package.json yarn.lock .yarnrc ./
+# 添加 .yarnrc（忽略 engines 错误）
+COPY .yarnrc ./
 
-# 安装前端依赖
+# 拷贝依赖声明
+COPY package.json yarn.lock ./
+
+# 安装 JS 依赖
 RUN yarn install --ignore-engines
 
 # 拷贝项目全部文件
 COPY . .
 
-# 构建前端（防止 webpack 默认失败）
+# 构建前端（避免 webpack 报错）
 RUN yarn build || yarn webpack
 
-# 安装 bundler 和 Ruby gem
+# 安装 Ruby 依赖
 RUN gem install bundler && bundle install
 
 # 暴露 Rails 默认端口
 EXPOSE 3000
 
-# 启动 Rails server
+# 启动服务器
 CMD ["rails", "server", "-b", "0.0.0.0", "-p", "3000"]
