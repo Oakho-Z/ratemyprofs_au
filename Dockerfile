@@ -16,12 +16,12 @@ COPY . .
 
 RUN yarn build || yarn webpack
 
-# ✅ 指定兼容版本 bundler
+# ✅ 指定 bundler 版本
 RUN gem install bundler -v 2.3.27 && bundle _2.3.27_ install
 
-# ✅ 设置 Rails 环境变量
+# ✅ 设置运行环境变量（这是关键）
 ENV RAILS_ENV=production
 
 EXPOSE 3000
 
-CMD ["rails", "server", "-b", "0.0.0.0", "-p", "3000"]
+# ✅ 启动 Rails 应用
