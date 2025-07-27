@@ -24,4 +24,5 @@ ENV RAILS_ENV=production
 
 EXPOSE 3000
 
-# ✅ 启动 Rails 应用
+# ✅ 启动 Rails 应用（使用 Puma）
+CMD ["bundle", "exec", "puma", "-C", "config/puma.rb"]
