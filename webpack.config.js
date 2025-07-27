@@ -1,27 +1,27 @@
-var path = require('path');
+const path = require('path');
 
 module.exports = {
-    entry: './frontend/ratemyprofs.jsx',
-    output: {
-        path: path.resolve(__dirname, 'public'), // ✅ 更稳妥的路径
-        filename: 'bundle.js', // ✅ 不要加 ./
-    },
-    module: {
-        rules: [
-            {
-                test: [/\.jsx?$/],
-                exclude: /(node_modules)/,
-                use: {
-                    loader: 'babel-loader',
-                    options: {
-                        presets: ['@babel/env', '@babel/react']
-                    }
-                },
-            }
-        ]
-    },
-    devtool: 'source-map',
-    resolve: {
-        extensions: ['.js', '.jsx', '*']
-    }
+  entry: path.resolve(__dirname, 'frontend', 'ratemyprofs.jsx'),
+  output: {
+    path: path.resolve(__dirname, 'public'),
+    filename: 'bundle.js',
+  },
+  module: {
+    rules: [
+      {
+        test: /\.jsx?$/,
+        exclude: /node_modules/,
+        use: {
+          loader: 'babel-loader',
+          options: {
+            presets: ['@babel/preset-env', '@babel/preset-react'],
+          },
+        },
+      },
+    ],
+  },
+  resolve: {
+    extensions: ['.js', '.jsx'],
+  },
+  devtool: 'source-map',
 };
