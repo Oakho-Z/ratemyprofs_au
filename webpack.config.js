@@ -3,8 +3,8 @@ var path = require('path');
 module.exports = {
     entry: './frontend/ratemyprofs.jsx',
     output: {
-        path: path.resolve(__dirname, 'app', 'assets', 'javascripts'),
-        filename: './bundle.js',
+        path: path.resolve(__dirname, 'public'), // ✅ 更稳妥的路径
+        filename: 'bundle.js', // ✅ 不要加 ./
     },
     module: {
         rules: [
@@ -20,7 +20,6 @@ module.exports = {
             }
         ]
     },
-    
     devtool: 'source-map',
     resolve: {
         extensions: ['.js', '.jsx', '*']
